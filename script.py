@@ -37,7 +37,7 @@ st.markdown(
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # Load and prepare the data
-uploaded_file = '/mnt/data/Life Expectancy Data.csv'  # Adjusted path for the uploaded file
+uploaded_file = 'Data.csv' 
 df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
 
 # Create columns for the selections
@@ -81,22 +81,4 @@ if st.button('Create Story'):
     # Initialize the story
     story = Story(data=vizzu_data)
 
-    # (Optional) Add slides to the story
-    slide = Slide(
-        Step(
-            Config({
-                "x": "Year",
-                "y": "LifeExpectancy",
-                "color": "Country",
-                "label": "LifeExpectancy"
-            }),
-            Style({"plot": {"xAxis": {"label": {"angle": "45deg"}}}})
-        )
-    )
-    story.add_slide(slide)
-
-    # Display the story using Streamlit's HTML component
-    html(story.to_html(width=width, height=height))
-
-    # Close the centered div
-    st.markdown('</div>', unsafe_allow_html=True)
+   
