@@ -107,7 +107,7 @@ if st.button('Create Story'):
                 {
                     'y': 'Percent',
                     'coordSystem': 'polar',
-                    'title': 'Percent of Your Life Complete'
+                    'title': 'Percent of Your Life Completed'
                 }
             )
         )
