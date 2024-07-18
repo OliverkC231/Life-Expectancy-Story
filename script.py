@@ -38,7 +38,10 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Load and prepare the data
 uploaded_file = 'Data.csv' 
-df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
+df = pd.read_csv(
+    uploaded_file, encoding='ISO-8859-1',
+    dtype={'Year': str},
+)
 
 # Create columns for the selections
 col1, col2, col3 = st.columns(3)
@@ -64,6 +67,8 @@ with col3:
     # Number input for year with automatic generation matching
     selected_year = st.slider('Year Born', min_value=1950, max_value=2024, value=1980)
 
+    
+
 if st.button('Create Story'):
 
     # Wrap the presentation in a centered div
@@ -81,14 +86,25 @@ if st.button('Create Story'):
     story = Story(data=vizzu_data)
 
     # Slide 1: No. of people with the same sex, born in the same year, same country
-    slide1 = Slide(
+    slide1 = Slide()
+    slide1.add_step(
         Step(
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
             Config.bar(
                 {
                     'x': 'Compared Age',
                     'y': 'Title',
-                    'title': f"Your Age Compared to the Life Expectancy in {selected_gender} at birth"
+                    'color': 'Compared Age',
+                    'title': f"Your Age Compared to Your Life Expectancy at Birth ({abr_country})"
+                }
+            )
+        )
+    )
+    slide1.add_step(
+        Step(
+            Config(
+                {
+                    "coordSystem": "polar",
                 }
             )
         )
@@ -97,18 +113,79 @@ if st.button('Create Story'):
 
     slide2 = Slide(
         Step(
-            Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
+            Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
                 {
-                    'x': 'Percent',
-                    'y': 'Title',
-                    'color': 'Title',
-                    'title': f"How Much of Your Life You Have Lived"
+                    'x': 'Life Expectancy',
+                    'y': 'Gender',
+                    'color': 'Gender',
+                    'title': f"Life Expectancy for Men and Women at birth in {selected_year} ({abr_country})"
                 }
             )
         )
     )
     story.add_slide(slide2)
+
+    slide3 = Slide(
+        Step(
+            Data.filter(f"record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}' && record['Title'] == 'Life Expectancy'"),
+            Config.bar(
+                {
+                    'x': 'Year',
+                    'y': 'Life Expectancy',
+                    'title': f"Life Expectancy for {selected_gender}s Over the Years ({selected_year})"
+                }
+            )
+        )
+    )
+    story.add_slide(slide3)
+
+    slide4 = Slide(
+        Step(
+            Data.filter(f"record['Subregion'] == '{subregion}' && record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
+            Config.bar(
+                {
+                    'x': 'Country',
+                    'y': 'Life Expectancy',
+                    'color': 'Country',
+                    'sort': 'byValue',
+                    'title': f"Life Expectancy for Countries in {subregion} for {selected_gender}s ({selected_year})"
+                }
+            )
+        )
+    )
+    story.add_slide(slide4)
+
+    slide5 = Slide(
+        Step(
+            Data.filter(f"record['Continent'] == '{continent}' && record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
+            Config.bar(
+                {
+                    'x': 'Country',
+                    'y': 'Life Expectancy',
+                    'color': 'Country',
+                    'sort': 'byValue',
+                    'title': f"Life Expectancy for Countries in {continent} for {selected_gender}s ({selected_year})"
+                }
+            )
+        )
+    )
+    story.add_slide(slide5)
+
+    slide6 = Slide(
+        Step(
+            Data.filter(f"record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
+            Config.bar(
+                {
+                    'x': 'Country',
+                    'y': 'Life Expectancy',
+                    'sort': 'byValue',
+                    'title': f"Life Expectancy Worldwide for {selected_gender}s ({selected_year})"
+                }
+            )
+        )
+    )
+    story.add_slide(slide6)
 
     # Switch on the tooltip that appears when the user hovers the mouse over a chart element.
     story.set_feature('tooltip', True)
