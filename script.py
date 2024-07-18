@@ -93,7 +93,6 @@ if st.button('Create Story'):
                 {
                     'x': 'Compared Age',
                     'y': 'Title',
-                    'label': ['Percent', 'Title'],
                     'title': f"Your Age Compared to Your Life Expectancy at Birth ({abr_country})"
                 }
             )
@@ -107,7 +106,6 @@ if st.button('Create Story'):
              Config(
                 {
                     'y': 'Percent',
-                    'label': 'Percent',
                     'coordSystem': 'polar',
                     'title': 'Percent of Your Life Complete'
                 }
