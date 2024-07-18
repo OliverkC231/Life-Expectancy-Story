@@ -27,7 +27,7 @@ st.markdown(
     }
     </style>
     <div class="centered">
-        <h1 class="title">You in the World</h1>
+        <h1 class="title">💀 Life Expectancy Story 💀</h1>
     </div>
     """,
     unsafe_allow_html=True
