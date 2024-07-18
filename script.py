@@ -63,7 +63,6 @@ g_type = df['G_Type'].loc[df['Country'] == selected_country].values[0]
 with col3:
     # Number input for year with automatic generation matching
     selected_year = st.slider('Year Born', min_value=1950, max_value=2024, value=1980)
-    age = 2024 - selected_year  # Calculate age based on the selected year
 
 if st.button('Create Story'):
 
@@ -81,4 +80,42 @@ if st.button('Create Story'):
     # Initialize the story
     story = Story(data=vizzu_data)
 
-   
+    # Slide 1: No. of people with the same sex, born in the same year, same country
+    slide1 = Slide(
+        Step(
+            Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
+            Config.bar(
+                {
+                    'x': 'Compared Age',
+                    'y': 'Title',
+                    'title': f"Your Age Compared to the Life Expectancy in {selected_gender} at birth"
+                }
+            )
+        )
+    )
+    story.add_slide(slide1)
+
+    slide2 = Slide(
+        Step(
+            Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
+            Config.bar(
+                {
+                    'x': 'Percent',
+                    'y': 'Title',
+                    'color': 'Title',
+                    'title': f"How Much of Your Life You Have Lived"
+                }
+            )
+        )
+    )
+    story.add_slide(slide2)
+
+    # Switch on the tooltip that appears when the user hovers the mouse over a chart element.
+    story.set_feature('tooltip', True)
+
+    html(story._repr_html_(), width=width, height=height)
+
+    st.download_button('Download HTML export', story.to_html(), file_name=f'Life-Expectancy-{selected_country}.html', mime='text/html')
+
+    # Close the centered div
+    st.markdown('</div>', unsafe_allow_html=True)
