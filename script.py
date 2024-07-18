@@ -86,25 +86,15 @@ if st.button('Create Story'):
     story = Story(data=vizzu_data)
 
     # Slide 1: No. of people with the same sex, born in the same year, same country
-    slide1 = Slide()
-    slide1.add_step(
+    slide1 = Slide(
         Step(
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
             Config.bar(
                 {
                     'x': 'Compared Age',
                     'y': 'Title',
-                    'color': 'Compared Age',
+                    'label': ['Percent', 'Title'],
                     'title': f"Your Age Compared to Your Life Expectancy at Birth ({abr_country})"
-                }
-            )
-        )
-    )
-    slide1.add_step(
-        Step(
-            Config(
-                {
-                    "coordSystem": "polar",
                 }
             )
         )
@@ -112,6 +102,21 @@ if st.button('Create Story'):
     story.add_slide(slide1)
 
     slide2 = Slide(
+        Step(
+            Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
+             Config(
+                {
+                    'y': 'Percent',
+                    'label': 'Percent',
+                    'coordSystem': 'polar',
+                    'title': 'Percent of Your Life Complete'
+                }
+            )
+        )
+    )
+    story.add_slide(slide2)
+
+    slide3 = Slide(
         Step(
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
@@ -124,9 +129,9 @@ if st.button('Create Story'):
             )
         )
     )
-    story.add_slide(slide2)
+    story.add_slide(slide3)
 
-    slide3 = Slide(
+    slide4 = Slide(
         Step(
             Data.filter(f"record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
@@ -138,9 +143,9 @@ if st.button('Create Story'):
             )
         )
     )
-    story.add_slide(slide3)
+    story.add_slide(slide4)
 
-    slide4 = Slide(
+    slide5 = Slide(
         Step(
             Data.filter(f"record['Subregion'] == '{subregion}' && record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
@@ -149,14 +154,14 @@ if st.button('Create Story'):
                     'y': 'Life Expectancy',
                     'color': 'Country',
                     'sort': 'byValue',
-                    'title': f"Life Expectancy for Countries in {subregion} for {selected_gender}s ({selected_year})"
+                    'title': f"Life Expectancy in {subregion} for {selected_gender}s ({selected_year})"
                 }
             )
         )
     )
-    story.add_slide(slide4)
+    story.add_slide(slide5)
 
-    slide5 = Slide(
+    slide6 = Slide(
         Step(
             Data.filter(f"record['Continent'] == '{continent}' && record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
@@ -165,14 +170,14 @@ if st.button('Create Story'):
                     'y': 'Life Expectancy',
                     'color': 'Country',
                     'sort': 'byValue',
-                    'title': f"Life Expectancy for Countries in {continent} for {selected_gender}s ({selected_year})"
+                    'title': f"Life Expectancy in {continent} for {selected_gender}s ({selected_year})"
                 }
             )
         )
     )
-    story.add_slide(slide5)
+    story.add_slide(slide6)
 
-    slide6 = Slide(
+    slide7 = Slide(
         Step(
             Data.filter(f"record['Gender'] == '{selected_gender}' && record['Year'] == '{selected_year}' && record['Title'] == 'Life Expectancy'"),
             Config.bar(
@@ -185,7 +190,7 @@ if st.button('Create Story'):
             )
         )
     )
-    story.add_slide(slide6)
+    story.add_slide(slide7)
 
     # Switch on the tooltip that appears when the user hovers the mouse over a chart element.
     story.set_feature('tooltip', True)
