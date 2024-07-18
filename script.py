@@ -136,7 +136,7 @@ if st.button('Create Story'):
                 {
                     'x': 'Year',
                     'y': 'Life Expectancy',
-                    'title': f"Life Expectancy for {selected_gender}s Over the Years ({selected_year})"
+                    'title': f"Life Expectancy for {selected_gender}s Over the Years ({selected_country})"
                 }
             )
         )
