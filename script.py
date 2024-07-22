@@ -67,12 +67,11 @@ with col3:
     # Number input for year with automatic generation matching
     selected_year = st.slider('Year Born', min_value=1950, max_value=2024, value=1980)
 
-    
-
 if st.button('Create Story'):
 
     # Wrap the presentation in a centered div
     st.markdown('<div class="centered">', unsafe_allow_html=True)
+
 
     # Define the dimensions for the visualization
     width = 600
@@ -91,11 +90,24 @@ if st.button('Create Story'):
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
             Config.bar(
                 {
-                    'x': 'Compared Age',
+                    'x': 'Life Expectancy',
                     'y': 'Title',
+                    'color': 'Title',
+                    'label': 'Percent',
                     'title': f"Your Age Compared to Your Life Expectancy at Birth ({abr_country})"
                 }
-            )
+            ),
+            Style(
+                {
+                    "plot": {
+                        "xAxis": {"label": {"fontSize": 9, "angle": 0.0}},
+                        "yAxis": {"label": {"fontSize": 9, "angle": 0.0}},
+                        "marker": {
+                            "colorPalette": "#FFD700 #1E90FF"
+                        },
+                    }
+                }
+            ),
         )
     )
     story.add_slide(slide1)
@@ -124,7 +136,18 @@ if st.button('Create Story'):
                     'color': 'Gender',
                     'title': f"Life Expectancy for Men and Women at birth in {selected_year} ({abr_country})"
                 }
-            )
+            ),
+            Style(
+                {
+                    "plot": {
+                        "xAxis": {"label": {"fontSize": 9, "angle": 0.0}},
+                        "yAxis": {"label": {"fontSize": 9, "angle": 0.0}},
+                        "marker": {
+                            "colorPalette": "#FFD700 #1E90FF"
+                        },
+                    }
+                }
+            ),
         )
     )
     story.add_slide(slide3)
@@ -136,9 +159,21 @@ if st.button('Create Story'):
                 {
                     'x': 'Year',
                     'y': 'Life Expectancy',
-                    'title': f"Life Expectancy for {selected_gender}s Over the Years ({selected_country})"
+                    'color': 'Year',
+                    'title': f"Life Expectancy for {selected_gender}s Over the Years ({abr_country})"
                 }
-            )
+            ),
+            Style(
+                {
+                    "plot": {
+                        "xAxis": {"label": {"fontSize": 7.5, "angle": 2.0}},
+                        "yAxis": {"label": {"fontSize": 9, "angle": 0.0}},
+                        "marker": {
+                            "colorPalette": "#FFD700 #1E90FF"
+                        },
+                    }
+                }
+            ),
         )
     )
     story.add_slide(slide4)
@@ -151,10 +186,19 @@ if st.button('Create Story'):
                     'x': 'Country',
                     'y': 'Life Expectancy',
                     'color': 'Country',
+                    'label': 'ISO3_code',
                     'sort': 'byValue',
                     'title': f"Life Expectancy in {subregion} for {selected_gender}s ({selected_year})"
                 }
-            )
+            ),
+            Style(
+                {
+                    "plot": {
+                        "xAxis": {"label": {"fontSize": 7.5, "angle": 2.0}},
+                        "yAxis": {"label": {"fontSize": 9, "angle": 0.0}}
+                    }
+                }
+            ),
         )
     )
     story.add_slide(slide5)
@@ -182,6 +226,7 @@ if st.button('Create Story'):
                 {
                     'x': 'Country',
                     'y': 'Life Expectancy',
+                    'color': 'Country',
                     'sort': 'byValue',
                     'title': f"Life Expectancy Worldwide for {selected_gender}s ({selected_year})"
                 }
