@@ -88,12 +88,12 @@ if st.button('Create Story'):
     slide1 = Slide(
         Step(
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
-            Config.bar(
+            Config(
                 {
                     'x': 'Life Expectancy',
                     'y': 'Title',
                     'color': 'Title',
-                    'label': 'Percent',
+                    'label': 'Life Expectancy',
                     'title': f"Your Age Compared to Your Life Expectancy at Birth ({abr_country})"
                 }
             ),
@@ -117,7 +117,8 @@ if st.button('Create Story'):
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Gender'] == '{selected_gender}'"),
              Config(
                 {
-                    'y': 'Percent',
+                    'x': 'Title',
+                    'y': 'Pecent',
                     'coordSystem': 'polar',
                     'title': 'Percent of Your Life Completed'
                 }
@@ -129,7 +130,7 @@ if st.button('Create Story'):
     slide3 = Slide(
         Step(
             Data.filter(f"record['Year'] == '{selected_year}' && record['Country'] == '{selected_country}' && record['Title'] == 'Life Expectancy'"),
-            Config.bar(
+            Config(
                 {
                     'x': 'Life Expectancy',
                     'y': 'Gender',
